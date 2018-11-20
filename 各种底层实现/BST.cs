@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-//µİ¹éÊµÏÖ¶ş·ÖËÑË÷Ê÷ Binary Search Tree
+//é€’å½’å®ç°äºŒåˆ†æœç´¢æ ‘ Binary Search Tree
 namespace BST {
     public class BST<T> where T : IComparable<T> {
 
@@ -35,9 +35,9 @@ namespace BST {
             //    _Add(root,e);
             //}
         }
-        ////µİ¹éº¯Êı,ÏòÒÔnodeÎª¸ùµÄ¶ş·ÖËÑË÷Ê÷ÖĞ²åÈëÔªËØe
+        ////é€’å½’å‡½æ•°,å‘ä»¥nodeä¸ºæ ¹çš„äºŒåˆ†æœç´¢æ ‘ä¸­æ’å…¥å…ƒç´ e
         //private void _Add(Node node,T e){
-        //    //ÏÈ¿¼ÂÇÖÕÖ¹Ìõ¼ş
+        //    //å…ˆè€ƒè™‘ç»ˆæ­¢æ¡ä»¶
         //    if(e.Equals(node.e)){
         //        return;
         //    }else if(e.CompareTo(node.e)<0 && node.left == null){
@@ -49,7 +49,7 @@ namespace BST {
         //        size++;
         //        return;
         //    }
-        //    //ÔÙ¿¼ÂÇÆÕ±éÏÖÏó
+        //    //å†è€ƒè™‘æ™®éç°è±¡
         //    if(e.CompareTo(node.e)<0){
         //        _Add(node.left, e);
         //    }
@@ -58,8 +58,8 @@ namespace BST {
         //    }
         //}
 
-        ////µİ¹éº¯Êı,ÏòÒÔnodeÎª¸ùµÄ¶ş·ÖËÑË÷Ê÷ÖĞ²åÈëÔªËØe
-        ////¸Ä½ø·½·¨,·µ»Ø²åÈëĞÂ½Úµãºó¶ş·ÖËÑË÷Ê÷µÄ¸ù
+        ////é€’å½’å‡½æ•°,å‘ä»¥nodeä¸ºæ ¹çš„äºŒåˆ†æœç´¢æ ‘ä¸­æ’å…¥å…ƒç´ e
+        ////æ”¹è¿›æ–¹æ³•,è¿”å›æ’å…¥æ–°èŠ‚ç‚¹åäºŒåˆ†æœç´¢æ ‘çš„æ ¹
         private Node _Add ( Node node,T e ) {
             if ( node == null ) {
                 size++;
@@ -74,12 +74,12 @@ namespace BST {
             }
             return node;
         }
-        //¿´¶ş·ÖËÑË÷Ê÷ÖĞÊÇ·ñ°üº¬ÔªËØe
+        //çœ‹äºŒåˆ†æœç´¢æ ‘ä¸­æ˜¯å¦åŒ…å«å…ƒç´ e
         public bool Contanis ( T e ) {
             return _Contains ( root,e );
         }
-        //¿´ÒÔnodeÎª¸ùµÄ¶ş·ÖËÑË÷Ê÷ÖĞÊÇ·ñ°üº¬ÔªËØe
-        //µİ¹éÊµÏÖ
+        //çœ‹ä»¥nodeä¸ºæ ¹çš„äºŒåˆ†æœç´¢æ ‘ä¸­æ˜¯å¦åŒ…å«å…ƒç´ e
+        //é€’å½’å®ç°
         private bool _Contains ( Node node,T e ) {
             if ( node == null ) {
                 return false;
@@ -95,7 +95,7 @@ namespace BST {
                 return _Contains ( node.right,e );
             }
         }
-        //Ç°Ğò±éÀú
+        //å‰åºéå†
         public void PreOrder ( ) {
             _PreOrder ( root );
         }
@@ -107,8 +107,8 @@ namespace BST {
             _PreOrder ( node.left );
             _PreOrder ( node.right );
         }
-        //·Çµİ¹éÇ°Ğò±éÀú
-        //ÀûÓÃÕ»½øĞĞ²Ù×÷
+        //éé€’å½’å‰åºéå†
+        //åˆ©ç”¨æ ˆè¿›è¡Œæ“ä½œ
         public void PreOrderNR ( ) {
             Stack<Node> stack = new Stack<Node>();
             stack.Push ( root );
@@ -124,7 +124,7 @@ namespace BST {
             }
         }
 
-        //ÖĞĞò±éÀú
+        //ä¸­åºéå†
         public void InOrder ( ) {
             _InOrder ( root );
         }
@@ -137,7 +137,7 @@ namespace BST {
             _InOrder ( node.right );
         }
 
-        //ºóĞò±éÀú
+        //ååºéå†
         public void PostOrder ( ) {
             _PostOrder ( root );
         }
@@ -149,8 +149,8 @@ namespace BST {
             _PostOrder ( node.right );
             Console.WriteLine ( node.e );
         }
-        //¹ã¶ÈÓÅÏÈ±éÀú--²ãĞò±éÀú
-        //ÀûÓÃ¶ÓÁĞ
+        //å¹¿åº¦ä¼˜å…ˆéå†--å±‚åºéå†
+        //åˆ©ç”¨é˜Ÿåˆ—
         public void LevelOrder ( ) {
             Queue<Node> queue = new Queue<Node>();
             queue.Enqueue ( root );
@@ -165,7 +165,7 @@ namespace BST {
                 }
             }
         }
-        //Ñ°ÕÒ¶ş·ÖËÑË÷Ê÷ÖĞµÄ×îĞ¡ÔªËØ
+        //å¯»æ‰¾äºŒåˆ†æœç´¢æ ‘ä¸­çš„æœ€å°å…ƒç´ 
         public T Minimum ( ) {
             if ( size == 0 ) {
                 throw new Exception ( "BST is empty!" );
@@ -180,7 +180,7 @@ namespace BST {
                 return _Minimum ( node.left );
             }
         }
-        //Ñ°ÕÒ¶ş·ÖËÑË÷Ê÷ÖĞµÄ×î´óÔªËØ
+        //å¯»æ‰¾äºŒåˆ†æœç´¢æ ‘ä¸­çš„æœ€å¤§å…ƒç´ 
         public T Maxmum ( ) {
             if ( size == 0 ) {
                 throw new Exception ( "BST is empty" );
@@ -195,14 +195,14 @@ namespace BST {
                 return _Maxmum ( node.right );
             }
         }
-        //É¾³ı¶ş·ÖËÑË÷Ê÷ÖĞ×îĞ¡µÄÔªËØ²¢ÇÒ·µ»Ø¸ÃÖµ
+        //åˆ é™¤äºŒåˆ†æœç´¢æ ‘ä¸­æœ€å°çš„å…ƒç´ å¹¶ä¸”è¿”å›è¯¥å€¼
         public T RemoveMin ( ) {
             T result = Minimum();
             _RemoveMin ( root );
             return result;
         }
-        //É¾³ıÒÔnodeÎª¸ùµÄ¶ş·ÖËÑË÷Ê÷ÖĞ×îĞ¡µÄ½Úµã
-        //·µ»ØÉ¾³ı½ÚµãºóĞÂµÄ¶ş·ÖËÑË÷Ê÷µÄ¸ù
+        //åˆ é™¤ä»¥nodeä¸ºæ ¹çš„äºŒåˆ†æœç´¢æ ‘ä¸­æœ€å°çš„èŠ‚ç‚¹
+        //è¿”å›åˆ é™¤èŠ‚ç‚¹åæ–°çš„äºŒåˆ†æœç´¢æ ‘çš„æ ¹
         private Node _RemoveMin ( Node node ) {
             if ( node.left == null ) {
                 Node rightnode = node.right;
@@ -210,12 +210,12 @@ namespace BST {
                 size--;
                 return rightnode;
             }
-            //µ±É¾³ıµô×ó½Úµãºó£¬µİ¹éº¯Êı»á·µ»Ø£¬ËùÒÔĞèÒª½«rootÖØĞÂÉèÖÃ
+            //å½“åˆ é™¤æ‰å·¦èŠ‚ç‚¹åï¼Œé€’å½’å‡½æ•°ä¼šè¿”å›ï¼Œæ‰€ä»¥éœ€è¦å°†rooté‡æ–°è®¾ç½®
             node.left = _RemoveMin ( node.left );
             return node;
         }
 
-        //É¾³ı¶ş·ÖËÑË÷Ê÷ÖĞ×î´óµÄÔªËØ²¢ÇÒ·µ»Ø¸ÃÖµ
+        //åˆ é™¤äºŒåˆ†æœç´¢æ ‘ä¸­æœ€å¤§çš„å…ƒç´ å¹¶ä¸”è¿”å›è¯¥å€¼
         public T RemoveMax ( ) {
             T result = Maxmum();
             _RemoveMax ( root );
@@ -231,7 +231,7 @@ namespace BST {
             node.right = _RemoveMax ( node.right );
             return node;
         }
-        //É¾³ı¶ş·ÖËÑË÷Ê÷Ö¸¶¨ÔªËØ
+        //åˆ é™¤äºŒåˆ†æœç´¢æ ‘æŒ‡å®šå…ƒç´ 
         public void Remove ( T e ) {
             root = _Remove ( root,e );
         }
@@ -248,31 +248,55 @@ namespace BST {
                 node.right = _Remove ( node.right,e );
                 return node;
             }
-            else {//´ıÉ¾½Úµã×ó×ÓÊ÷Îª¿ÕµÄÇé¿ö
+            else {//å¾…åˆ èŠ‚ç‚¹å·¦å­æ ‘ä¸ºç©ºçš„æƒ…å†µ
                 if ( node.left == null ) {
                     Node rightnode = node.right;
                     node.right = null;
                     size--;
                     return rightnode;
-                }//´ıÉ¾½ÚµãÓÒ×ÓÊ÷Îª¿ÕµÄÇé¿ö
+                }//å¾…åˆ èŠ‚ç‚¹å³å­æ ‘ä¸ºç©ºçš„æƒ…å†µ
                 if ( node.right == null ) {
                     Node leftnode = node.left;
                     node.left = null;
                     size--;
                     return leftnode;
                 }
-                //´ıÉ¾³ı½Úµã×óÓÒÊ÷¾ù²»Îª¿ÕµÄÇé¿ö
-                //ÕÒµ½±È´ıÉ¾³ı½Úµã´óµÄ×îĞ¡½Úµã£¬¼´´ıÉ¾³ı½ÚµãÓÒ×ÓÊ÷µÄ×îĞ¡½Úµã
-                //ÓÃÕâ¸ö½Úµã¶¥Ìæ´ıÉ¾½ÚµãµÄÎ»ÖÃ
+                //å¾…åˆ é™¤èŠ‚ç‚¹å·¦å³æ ‘å‡ä¸ä¸ºç©ºçš„æƒ…å†µ
+                //æ‰¾åˆ°æ¯”å¾…åˆ é™¤èŠ‚ç‚¹å¤§çš„æœ€å°èŠ‚ç‚¹ï¼Œå³å¾…åˆ é™¤èŠ‚ç‚¹å³å­æ ‘çš„æœ€å°èŠ‚ç‚¹
+                //ç”¨è¿™ä¸ªèŠ‚ç‚¹é¡¶æ›¿å¾…åˆ èŠ‚ç‚¹çš„ä½ç½®
                 Node successor = _Minimum(node.right);
                 successor.right = _RemoveMin ( node.right );
                 successor.left = node.left;
 
-                //Çå³ı
+                //æ¸…é™¤
                 node.left = node.right = null;
 
                 return successor;
             }
+        }
+                public override string ToString() {
+            StringBuilder res = new StringBuilder();
+            //ä¼ å…¥å½“å‰èŠ‚ç‚¹çš„æ·±åº¦ï¼Œå¯¹äºæ ¹èŠ‚ç‚¹ï¼Œæ·±åº¦å°±æ˜¯0
+            _GenerateBSTString(root,0,res);
+            return res.ToString();
+        }
+        //ç”Ÿæˆä»¥nodeä¸ºæ ¹èŠ‚ç‚¹ï¼Œæ·±åº¦ä¸ºdepthçš„æè¿°äºŒå‰æ ‘çš„å­—ç¬¦ä¸² åŸºäºå‰åºéå†
+        private void _GenerateBSTString(Node node,int depth,StringBuilder res) {
+            if ( node == null ) {
+                res.Append(_GenerateDepthString(depth)+"null\n");
+                return;
+            }
+            res.Append(_GenerateDepthString(depth) + node.e + "\n");
+            _GenerateBSTString(node.left,depth + 1,res);
+            _GenerateBSTString(node.right,depth + 1,res);
+        }
+
+        private string _GenerateDepthString(int depth) {
+            StringBuilder res = new StringBuilder();
+            for ( int i = 0 ;i < depth ;i++ ) {
+                res.Append("-");
+            }
+            return res.ToString();
         }
     }
 }
