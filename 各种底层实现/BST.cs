@@ -244,8 +244,7 @@ namespace BST {
                 return node;
             }
             else if ( e.CompareTo ( node.e ) > 0 ) {
-                node.right = _Remove ( node.right,e );
-                node.right = _Remove ( node.right,e );
+                node.right = _Remove ( node.right,e );            
                 return node;
             }
             else {//待删节点左子树为空的情况
