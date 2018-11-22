@@ -1,20 +1,30 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 //线段树，用数组实现
 namespace SegmentTree {
+    class Program{
+        public static void Main(string[] args){
+            int[] arr = { 9, 2, 5, 1, 7, 4, 19 };
+            SegmentTree<int> segmentTree = new SegmentTree<int>(arr, (a, b) => a + b);
+            Console.WriteLine(segmentTree);
+        }
+    }
+    
+    public delegate T Merge<T>(T a,T b);
+    
     class SegmentTree<T> {
         private T[] data;
         private T[] tree;
-        private IMerger<T> merger;
-        public SegmentTree ( T[] array,IMerger<T> merger ) {
+        private Merge<T> merge;
+        public SegmentTree ( T[] array,Merge<T> merge ) {
             data = new T[ array.Length ];
             for ( int i = 0 ;i < array.Length ;i++ ) {
                 data[ i ] = array[ i ];
             }
             tree = new T[ array.Length * 4 ];
-            this.merger = merger;
+            this.merge = merge;
             //创建SegementTree
             _BuildSegmentTree ( treeIndex: 0,l: 0,r: data.Length - 1 );
         }
@@ -29,7 +39,7 @@ namespace SegmentTree {
             int mid = l+(r-l)/2;
             _BuildSegmentTree ( leftTreeIndex,l,mid );
             _BuildSegmentTree ( rightTreeIndex,mid + 1,r );
-            tree[treeIndex] = merger.Merge ( tree[leftTreeIndex],tree[rightTreeIndex] );
+            tree[treeIndex] = merge( tree[leftTreeIndex],tree[rightTreeIndex] );
         }
 
         public int GetSize ( ) {
