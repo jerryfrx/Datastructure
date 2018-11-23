@@ -24,7 +24,7 @@ namespace SavaProcessToFile {
             //不存在就创建
             string FilePath = CurDir + FileName;
             Console.WriteLine(FilePath);
-            //文件覆盖方式添加内容
+            //文件追加方式添加内容
             System.IO.StreamWriter file = new System.IO.StreamWriter(FilePath, true);
             //保存数据到文件
             file.Write(data);
