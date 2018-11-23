@@ -82,7 +82,7 @@ namespace SegmentTree {
             }
             T leftResult = _Query ( leftTreeIndex,l,mid,queryL,mid );
             T rightResult = _Query( rightTreeIndex,mid+1,r,mid+1,queryR );
-            return merger.Merge ( leftResult,rightResult );
+            return merge( leftResult,rightResult );
         }
         public void SetElement( int index,T e ) {
             if ( index < 0 || index >= data.Length ) {
@@ -110,20 +110,20 @@ namespace SegmentTree {
         }
         public string ToString ( ) {
             StringBuilder res = new StringBuilder();
-            res.Append ( '[' );
-            for ( int i = 0 ;i < tree.Length ;i++ ) {
-                if ( tree[i] != null ) {
-                    res.Append ( tree[i] );
+            res.Append("[");
+            for (int i = 0; i < tree.Length; i++) {
+                if (!tree[i].Equals(default(T))) {
+                    res.Append(tree[i]);
                 }
                 else {
-                    res.Append ("null");
+                    res.Append("null");
                 }
-                if ( i != tree.Length - 1 ) {
-                    res.Append ( ", " );
+                if (i != tree.Length-1) {
+                    res.Append(", ");
                 }
             }
-            res.Append ( ']' );
-            return res.ToString ( );
+            res.Append("]");
+            return res.ToString();
         }
     }
 }
