@@ -300,6 +300,9 @@ namespace AVLTree {
                 retnode = successor;
                 }
             }
+            if(retnode == null){
+                return null;
+            }
             // 更新height
             retnode.height = 1 + Math.Max ( GetHeight ( retnode.left ),GetHeight ( retnode.right ) );
 
