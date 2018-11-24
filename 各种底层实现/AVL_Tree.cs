@@ -259,14 +259,15 @@ namespace AVLTree {
 
             if ( node == null )
                 return null;
+            Node retnode;
 
             if ( key.CompareTo ( node.key ) < 0 ) {
                 node.left = Remove ( node.left,key );
-                return node;
+                retnode = node;
             }
             else if ( key.CompareTo ( node.key ) > 0 ) {
                 node.right = Remove ( node.right,key );
-                return node;
+                retnode = node;
             }
             else {   // key.CompareTo(node.key) == 0
 
@@ -275,7 +276,7 @@ namespace AVLTree {
                     Node rightNode = node.right;
                     node.right = null;
                     size--;
-                    return rightNode;
+                    retnode = rightNode;
                 }
 
                 // 待删除节点右子树为空的情况
@@ -283,7 +284,7 @@ namespace AVLTree {
                     Node leftNode = node.left;
                     node.left = null;
                     size--;
-                    return leftNode;
+                    retnode = leftNode;
                 }
 
                 // 待删除节点左右子树均不为空的情况
@@ -291,13 +292,41 @@ namespace AVLTree {
                 // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
                 // 用这个节点顶替待删除节点的位置
                 Node successor = Minimum(node.right);
-                successor.right = RemoveMin ( node.right );
+                successor.right = Remove( node.right,successor.key );
                 successor.left = node.left;
 
                 node.left = node.right = null;
 
-                return successor;
+                retnode = successor;
             }
+            // 更新height
+            retnode.height = 1 + Math.Max ( GetHeight ( retnode.left ),GetHeight ( retnode.right ) );
+
+            // 计算平衡因子
+            int balanceFactor = GetBalanceFactor(retnode);
+            if ( Math.Abs ( balanceFactor ) > 1 ){
+                Console.WriteLine ( "unbalanced : " + balanceFactor );
+            }                
+            //平衡维护
+            // LL
+            if(balanceFactor > 1 && GetBalanceFactor(retnode.left) >= 0){
+               return RightRotate(retnode); 
+            } 
+            // RR
+            if(balanceFactor < -1 && GetBalanceFactor(retnode.right) <= 0){
+               return LeftRotate(retnode);
+            }
+            // LR
+            if(balanceFactor > 1 && GetBalanceFactor(retnode.left) < 0){
+               retnode.left = LeftRotate(retnode.left);
+               return RightRotate(retnode);
+            } 
+            // RL
+            if(balanceFactor < -1 && GetBalanceFactor(retnode.right) > 0){
+               retnode.right = RightRotate(retnode.right);
+               return LeftRotate(node);
+            }
+            return retnode;
         }
     }
 }
