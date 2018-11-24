@@ -76,6 +76,7 @@ namespace AVLTree {
                 return 0;
             return GetHeight ( node.left ) - GetHeight ( node.right );
         }
+        // LL 情况
         //右旋转
         //对节点y进行右旋转操作,返回旋转后新的根节点x
         //          y                                x
@@ -96,6 +97,7 @@ namespace AVLTree {
             x.height = Math.Max(GetHeight(x.left),GetHeight(x.right))+1;
             return x;
         }
+        // RR 情况
         //左旋转
         //对节点y进行左旋转，返回旋转后新的根节点x
         //                y                                         x
@@ -117,7 +119,26 @@ namespace AVLTree {
             x.height = Math.Max(GetHeight(x.left),GetHeight(x.right))+1;
             return x;
         }
-       
+        // LR 情况
+        //             y                            y
+        //            / \     首先对x进行左旋转     / \      对y进行右旋转
+        //           x   T4    ------------->     z   T4  --------------->
+        //          / \        转换成LL情况       / \
+        //         T1  z                        x   T3
+        //            / \                      / \
+        //           T2  T3                   T1  T2
+        //
+        //
+        // RL 情况
+        //             y                            y
+        //            / \     首先对x进行右旋转     /  \      对y进行左旋转
+        //          T1   x    ------------->     T1    x  --------------->
+        //              / \     转换成RR情况           / \
+        //             z   T4                        T2  z
+        //            / \                               / \
+        //           T2  T3                            T3  T4
+        //
+        //
         // 向二分搜索树中添加新的元素(key, value)
         public void Add ( K key,V value ) {
             root = Add ( root,key,value );
@@ -148,10 +169,22 @@ namespace AVLTree {
                 Console.WriteLine ( "unbalanced : " + balanceFactor );
             }                
             //平衡维护
+            // LL
             if(balanceFactor > 1 && GetBalanceFactor(node.left) >= 0){
                return RightRotate(node); 
             } 
+            // RR
             if(balanceFactor < -1 && GetBalanceFactor(node.right) <= 0){
+               return LeftRotate(node);
+            }
+            // LR
+            if(balanceFactor > 1 && GetBalanceFactor(node.left) < 0){
+               node.left = LeftRotate(node.left);
+               return RightRotate(node);
+            } 
+            // RL
+            if(balanceFactor < -1 && GetBalanceFactor(node.right) > 0){
+               node.right = RightRotate(node.right);
                return LeftRotate(node);
             }
             return node;
