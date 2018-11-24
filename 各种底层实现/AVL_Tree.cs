@@ -280,13 +280,13 @@ namespace AVLTree {
                 }
 
                 // 待删除节点右子树为空的情况
-                if ( node.right == null ) {
+                else if ( node.right == null ) {
                     Node leftNode = node.left;
                     node.left = null;
                     size--;
                     retnode = leftNode;
                 }
-
+                else{
                 // 待删除节点左右子树均不为空的情况
 
                 // 找到比待删除节点大的最小节点, 即待删除节点右子树的最小节点
@@ -298,6 +298,7 @@ namespace AVLTree {
                 node.left = node.right = null;
 
                 retnode = successor;
+                }
             }
             // 更新height
             retnode.height = 1 + Math.Max ( GetHeight ( retnode.left ),GetHeight ( retnode.right ) );
