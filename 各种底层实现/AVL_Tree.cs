@@ -29,8 +29,8 @@ namespace AVLTree {
         public bool IsEmpty ( ) {
             return size == 0;
         }
-        //ÅĞ¶Ï¸Ã¶ş²æÊ÷ÊÇ·ñÊÇÒ»¿Å¶ş·ÖËÑË÷Ê÷
-        //Èç¹ûÊÇ¶ş·ÖËÑË÷Ê÷£¬ÄÇÃ´ÖĞĞò±éÀúÒ»¶¨ÊÇ°´ÉıĞòÅÅÁĞ
+        //åˆ¤æ–­è¯¥äºŒå‰æ ‘æ˜¯å¦æ˜¯ä¸€é¢—äºŒåˆ†æœç´¢æ ‘
+        //å¦‚æœæ˜¯äºŒåˆ†æœç´¢æ ‘ï¼Œé‚£ä¹ˆä¸­åºéå†ä¸€å®šæ˜¯æŒ‰å‡åºæ’åˆ—
         public bool IsBST ( ) {
             List<K> keys = new List<K>();
             _InOrder ( root,keys );
@@ -49,8 +49,8 @@ namespace AVLTree {
             keys.Add ( node.key );
             _InOrder ( node.right,keys );
         }
-        //ÅĞ¶ÏÊÇ·ñÊÇÆ½ºâ¶ş²æÊ÷
-        //¶ÔÓÚÃ¿Ò»¸ö½Úµã£¬ËüµÄ×óÓÒ×ÓÊ÷µÄ¸ß¶È²î²»ÄÜ³¬¹ı1
+        //åˆ¤æ–­æ˜¯å¦æ˜¯å¹³è¡¡äºŒå‰æ ‘
+        //å¯¹äºæ¯ä¸€ä¸ªèŠ‚ç‚¹ï¼Œå®ƒçš„å·¦å³å­æ ‘çš„é«˜åº¦å·®ä¸èƒ½è¶…è¿‡1
         public bool IsBalanced ( ) {
             return _IsBalanced ( root );
         }
@@ -64,25 +64,67 @@ namespace AVLTree {
             }
             return _IsBalanced ( node.left ) && _IsBalanced ( node.right );
         }
-        // »ñµÃ½ÚµãnodeµÄ¸ß¶È
+        // è·å¾—èŠ‚ç‚¹nodeçš„é«˜åº¦
         private int GetHeight ( Node node ) {
             if ( node == null )
                 return 0;
             return node.height;
         }
-        // »ñµÃ½ÚµãnodeµÄÆ½ºâÒò×Ó
+        // è·å¾—èŠ‚ç‚¹nodeçš„å¹³è¡¡å› å­
         private int GetBalanceFactor ( Node node ) {
             if ( node == null )
                 return 0;
             return GetHeight ( node.left ) - GetHeight ( node.right );
         }
-        // Ïò¶ş·ÖËÑË÷Ê÷ÖĞÌí¼ÓĞÂµÄÔªËØ(key, value)
+        //å³æ—‹è½¬
+        //å¯¹èŠ‚ç‚¹yè¿›è¡Œå³æ—‹è½¬æ“ä½œ,è¿”å›æ—‹è½¬åæ–°çš„æ ¹èŠ‚ç‚¹x
+        //          y                                x
+        //         / \                             /   \
+        //        x   T4        å‘å³æ—‹è½¬(y)        z     y
+        //       / \           ------------->    / \    / \
+        //      z   T3                          T1 T2  T3 T4
+        //     / \
+        //    T1  T2
+        private Node RightRotate(Node y){
+            Node x = y.left;
+            Node T3 = x.right;
+            //å‘å³æ—‹è½¬è¿‡ç¨‹
+            x.right = y;
+            y.left = T3;
+            //æ›´æ–°height
+            y.height = Math.Max(GetHeight(y.left),GetHeight(y.right))+1;
+            x.height = Math.Max(GetHeight(x.left),GetHeight(x.right))+1;
+            return x;
+        }
+        //å·¦æ—‹è½¬
+        //å¯¹èŠ‚ç‚¹yè¿›è¡Œå·¦æ—‹è½¬ï¼Œè¿”å›æ—‹è½¬åæ–°çš„æ ¹èŠ‚ç‚¹x
+        //                y                                         x
+        //               / \                                      /   \
+        //              T1  x              å‘å·¦æ—‹è½¬               y     z
+        //                 / \         --------------->         / \   / \              
+        //                T2  z                                T1 T2 T3 T4
+        //                   / \
+        //                  T3  T4
+        //
+        private Node LeftRotate(Node y){
+            Node x = y.right;
+            Node T2 = x.left;
+            //å‘å·¦æ—‹è½¬è¿‡ç¨‹
+            x.left = y;
+            y.right = T2;
+            //æ›´æ–°height
+            y.height = Math.Max(GetHeight(y.left),GetHeight(y.right))+1;
+            x.height = Math.Max(GetHeight(x.left),GetHeight(x.right))+1;
+            return x;
+        }
+       
+        // å‘äºŒåˆ†æœç´¢æ ‘ä¸­æ·»åŠ æ–°çš„å…ƒç´ (key, value)
         public void Add ( K key,V value ) {
             root = Add ( root,key,value );
         }
 
-        // ÏòÒÔnodeÎª¸ùµÄ¶ş·ÖËÑË÷Ê÷ÖĞ²åÈëÔªËØ(key, value)£¬µİ¹éËã·¨
-        // ·µ»Ø²åÈëĞÂ½Úµãºó¶ş·ÖËÑË÷Ê÷µÄ¸ù
+        // å‘ä»¥nodeä¸ºæ ¹çš„äºŒåˆ†æœç´¢æ ‘ä¸­æ’å…¥å…ƒç´ (key, value)ï¼Œé€’å½’ç®—æ³•
+        // è¿”å›æ’å…¥æ–°èŠ‚ç‚¹åäºŒåˆ†æœç´¢æ ‘çš„æ ¹
         private Node Add ( Node node,K key,V value ) {
 
             if ( node == null ) {
@@ -97,18 +139,25 @@ namespace AVLTree {
             else // key.CompareTo(node.key) == 0
                 node.value = value;
 
-            // ¸üĞÂheight
+            // æ›´æ–°height
             node.height = 1 + Math.Max ( GetHeight ( node.left ),GetHeight ( node.right ) );
 
-            // ¼ÆËãÆ½ºâÒò×Ó
+            // è®¡ç®—å¹³è¡¡å› å­
             int balanceFactor = GetBalanceFactor(node);
-            if ( Math.Abs ( balanceFactor ) > 1 )
+            if ( Math.Abs ( balanceFactor ) > 1 ){
                 Console.WriteLine ( "unbalanced : " + balanceFactor );
-
+            }                
+            //å¹³è¡¡ç»´æŠ¤
+            if(balanceFactor > 1 && GetBalanceFactor(node.left) >= 0){
+               return RightRotate(node); 
+            } 
+            if(balanceFactor < -1 && GetBalanceFactor(node.right) <= 0){
+               return LeftRotate(node);
+            }
             return node;
         }
 
-        // ·µ»ØÒÔnodeÎª¸ù½ÚµãµÄ¶ş·ÖËÑË÷Ê÷ÖĞ£¬keyËùÔÚµÄ½Úµã
+        // è¿”å›ä»¥nodeä¸ºæ ¹èŠ‚ç‚¹çš„äºŒåˆ†æœç´¢æ ‘ä¸­ï¼Œkeyæ‰€åœ¨çš„èŠ‚ç‚¹
         private Node GetNode ( Node node,K key ) {
 
             if ( node == null )
@@ -140,15 +189,15 @@ namespace AVLTree {
             node.value = newValue;
         }
 
-        // ·µ»ØÒÔnodeÎª¸ùµÄ¶ş·ÖËÑË÷Ê÷µÄ×îĞ¡ÖµËùÔÚµÄ½Úµã
+        // è¿”å›ä»¥nodeä¸ºæ ¹çš„äºŒåˆ†æœç´¢æ ‘çš„æœ€å°å€¼æ‰€åœ¨çš„èŠ‚ç‚¹
         private Node Minimum ( Node node ) {
             if ( node.left == null )
                 return node;
             return Minimum ( node.left );
         }
 
-        // É¾³ıµôÒÔnodeÎª¸ùµÄ¶ş·ÖËÑË÷Ê÷ÖĞµÄ×îĞ¡½Úµã
-        // ·µ»ØÉ¾³ı½ÚµãºóĞÂµÄ¶ş·ÖËÑË÷Ê÷µÄ¸ù
+        // åˆ é™¤æ‰ä»¥nodeä¸ºæ ¹çš„äºŒåˆ†æœç´¢æ ‘ä¸­çš„æœ€å°èŠ‚ç‚¹
+        // è¿”å›åˆ é™¤èŠ‚ç‚¹åæ–°çš„äºŒåˆ†æœç´¢æ ‘çš„æ ¹
         private Node RemoveMin ( Node node ) {
 
             if ( node.left == null ) {
@@ -162,7 +211,7 @@ namespace AVLTree {
             return node;
         }
 
-        // ´Ó¶ş·ÖËÑË÷Ê÷ÖĞÉ¾³ı¼üÎªkeyµÄ½Úµã
+        // ä»äºŒåˆ†æœç´¢æ ‘ä¸­åˆ é™¤é”®ä¸ºkeyçš„èŠ‚ç‚¹
         public V Remove ( K key ) {
 
             Node node = GetNode(root, key);
@@ -188,7 +237,7 @@ namespace AVLTree {
             }
             else {   // key.CompareTo(node.key) == 0
 
-                // ´ıÉ¾³ı½Úµã×ó×ÓÊ÷Îª¿ÕµÄÇé¿ö
+                // å¾…åˆ é™¤èŠ‚ç‚¹å·¦å­æ ‘ä¸ºç©ºçš„æƒ…å†µ
                 if ( node.left == null ) {
                     Node rightNode = node.right;
                     node.right = null;
@@ -196,7 +245,7 @@ namespace AVLTree {
                     return rightNode;
                 }
 
-                // ´ıÉ¾³ı½ÚµãÓÒ×ÓÊ÷Îª¿ÕµÄÇé¿ö
+                // å¾…åˆ é™¤èŠ‚ç‚¹å³å­æ ‘ä¸ºç©ºçš„æƒ…å†µ
                 if ( node.right == null ) {
                     Node leftNode = node.left;
                     node.left = null;
@@ -204,10 +253,10 @@ namespace AVLTree {
                     return leftNode;
                 }
 
-                // ´ıÉ¾³ı½Úµã×óÓÒ×ÓÊ÷¾ù²»Îª¿ÕµÄÇé¿ö
+                // å¾…åˆ é™¤èŠ‚ç‚¹å·¦å³å­æ ‘å‡ä¸ä¸ºç©ºçš„æƒ…å†µ
 
-                // ÕÒµ½±È´ıÉ¾³ı½Úµã´óµÄ×îĞ¡½Úµã, ¼´´ıÉ¾³ı½ÚµãÓÒ×ÓÊ÷µÄ×îĞ¡½Úµã
-                // ÓÃÕâ¸ö½Úµã¶¥Ìæ´ıÉ¾³ı½ÚµãµÄÎ»ÖÃ
+                // æ‰¾åˆ°æ¯”å¾…åˆ é™¤èŠ‚ç‚¹å¤§çš„æœ€å°èŠ‚ç‚¹, å³å¾…åˆ é™¤èŠ‚ç‚¹å³å­æ ‘çš„æœ€å°èŠ‚ç‚¹
+                // ç”¨è¿™ä¸ªèŠ‚ç‚¹é¡¶æ›¿å¾…åˆ é™¤èŠ‚ç‚¹çš„ä½ç½®
                 Node successor = Minimum(node.right);
                 successor.right = RemoveMin ( node.right );
                 successor.left = node.left;
